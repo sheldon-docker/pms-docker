@@ -2,7 +2,7 @@ version: '2'
 services:
   plex:
     container_name: pms
-    image: plexinc/pms-docker:plexpass
+    image: plexinc/pms-docker:${IMAGE_TAG}
     restart: unless-stopped
     ports:
       - 32400:32400/tcp
@@ -15,11 +15,12 @@ services:
       - 32413:32413/udp
       - 32414:32414/udp
     environment:
-      - TZ=America/Los_Angeles
-      - PLEX_CLAIM=<claimToken>
-      - ADVERTISE_IP=http://172.16.43.254:32400/
-    hostname: felix
+      - TZ=${TZ}
+      - PLEX_CLAIM=${PLEX_CLAIM}
+      - ADVERTISE_IP=${ADVERTISE_IP}
+      - HOSTNAME=${INTERNAL_HOSTNAME}
+    hostname: ${EXTERNAL_HOSTNAME}
     volumes:
-      - <path/to/plex/database>:/config
-      - <path/to/transcode/temp>:/transcode
-      - <path/to/media>:/data
+      - ${CONFIG_VOLUME}:/config
+      - ${TRANSCODE_VOLUME}:/transcode
+      - ${MEDIA_VOLUME}:/data
